@@ -1,9 +1,12 @@
+const { application } = require("express");
 const express = require("express");
 require("dotenv").config();
 
 const app = express();
 
 const port = process.env.APP_PORT ?? 5000;
+
+app.use(express.json());
 
 const welcome = (req, res) => {
   res.send("Welcome to my favourite movie list");
@@ -16,9 +19,11 @@ const userHandlers = require("./userHandlers");
 
 app.get("/api/movies", movieHandlers.getMovies);
 app.get("/api/movies/:id", movieHandlers.getMovieById);
+app.post("/api/movies", movieHandlers.postMovie);
 
 app.get("/api/users", userHandlers.getUsers);
 app.get("/api/users/:id", userHandlers.getUserById);
+app.post("/api/users", userHandlers.postUser);
 
 app.listen(port, (err) => {
   if (err) {
