@@ -1,7 +1,7 @@
 const database = require("./database");
 
 const getUsers = (req, res) => {
-  let sql = "SELECT * FROM users";
+  let sql = "SELECT firstname, lastname, email, city, language FROM users";
   const sqlValues = [];
 
   if (req.query.language != null) {
@@ -32,7 +32,7 @@ const getUsers = (req, res) => {
     const id = parseInt(req.params.id);
   
     database
-      .query("select * from users where id = ?", [id])
+      .query("select firstname, lastname, email, city, language from users where id = ?", [id])
       .then(([users]) => {
         if(users[0] != null) {
         res.json(users[0]);
@@ -47,18 +47,18 @@ const getUsers = (req, res) => {
   };
 
   const postUser = (req, res) => {
-    const {firstname, lastname, email, city, language} = req.body;
+    const {firstname, lastname, email, city, language, hashedPassword} = req.body;
     database
     .query(
-      "INSERT INTO users(firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?)",
-      [firstname, lastname, email, city, language]
+      "INSERT INTO users(firstname, lastname, email, city, language, hashedPassword) VALUES (?, ?, ?, ?, ?, ?)",
+      [firstname, lastname, email, city, language, hashedPassword]
     )
     .then(([result]) => {
       res.location(`/api/users/${result.insertID}`).sendStatus(201);
     })
       .catch((err) => {
         console.error(err);
-        res.status(500).send("Error saving the movie");
+        res.status(500).send("Error saving the user");
       });
     }
   
