@@ -72,8 +72,18 @@ const verifyToken = (req, res, next) => {
   }
 };
 
+const compareTokenId = (req, res, next) => {
+  const id = req.params.id;
+   if (req.payload.sub == id) {
+    next();
+    } else {
+    res.sendStatus(403);
+    }
+};
+
 module.exports = {
   hashPassword,
   verifyPassword,
   verifyToken,
+  compareTokenId,
 };

@@ -16,7 +16,7 @@ app.get("/", welcome);
 
 const movieHandlers = require("./movieHandlers");
 const userHandlers = require("./userHandlers");
-const { hashPassword, verifyPassword, verifyToken } = require("./auth.js");
+const { hashPassword, verifyPassword, verifyToken, compareTokenId } = require("./auth.js");
 
 // the public routes
 // movies routes
@@ -42,8 +42,8 @@ app.put("/api/movies/:id", movieHandlers.updateMovie);
 app.delete("/api/movies/:id", movieHandlers.deleteMovie);
 
 // users routes
-app.put("/api/users/:id", userHandlers.updateUser);
-app.delete("/api/users/:id", userHandlers.deleteUser);
+app.put("/api/users/:id", compareTokenId, userHandlers.updateUser);
+app.delete("/api/users/:id", compareTokenId, userHandlers.deleteUser);
 
 
 app.listen(port, (err) => {
