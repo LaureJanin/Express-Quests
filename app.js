@@ -35,7 +35,7 @@ app.post(
 
 // then the routes to protect
 // movies routes
-app.use(verifyToken, validateMovie, validateUser);
+app.use(verifyToken);
 
 app.post("/api/movies", movieHandlers.postMovie);
 app.put("/api/movies/:id", movieHandlers.updateMovie);
